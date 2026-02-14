@@ -480,6 +480,65 @@ heart.remove();
 
 </script>
 
+  <!-- VALENTINE COPYRIGHT FOOTER START -->
+<style>
+#copyright{
+    position:fixed;
+    bottom:12px;
+    left:0;
+    width:100%;
+
+    text-align:center;
+
+    font-size:12px;
+    font-family:'Poppins', sans-serif;
+
+    color:#ff9acb;
+
+    text-shadow:
+        0 0 5px rgba(255,154,203,0.9),
+        0 0 15px rgba(255,105,180,0.7),
+        0 0 25px rgba(255,20,147,0.5);
+
+    opacity:0;
+    animation:fadeInCopyright 3s ease forwards;
+
+    z-index:9999;
+
+    pointer-events:none;
+}
+
+@keyframes fadeInCopyright{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:0.95;
+        transform:translateY(0);
+    }
+}
+
+/* Mobile safe spacing */
+@media(max-width:600px){
+    #copyright{
+        font-size:11px;
+        bottom:10px;
+        padding:0 15px;
+        line-height:1.4;
+    }
+}
+
+/* Prevent overlap */
+body{
+    padding-bottom:50px;
+}
+</style>
+
+<div id="copyright">
+© Created in silence with love · Dark_Shadow04
+</div>
+<!-- VALENTINE COPYRIGHT FOOTER END -->
 
 </body>
 
