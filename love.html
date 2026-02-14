@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For You</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+<source src="music/soulland.mp3" type="audio/mp3">
+</audio>
+
+
+
+<!-- FIREFLIES BACKGROUND -->
+<canvas id="fireflies"></canvas>
+
+
+
+<!-- NAME GATE -->
+<div id="nameGate">
+
+<div class="nameBox">
+
+<h2 class="heartbeat">
+Enter Your Name
+</h2>
+
+<input
+type="text"
+id="loveNameInput"
+placeholder="Enter your name"
+/>
+
+<br>
+
+<button onclick="showLoveMessage()">
+Enter
+</button>
+
+<div id="nameError"></div>
+
+</div>
+
+</div>
+
+
+
+<!-- SILPA MESSAGE -->
+<section
+id="silpaSection"
+class="section"
+style="display:none;"
+>
+
+<button
+class="backBtn"
+onclick="goBack()"
+>
+← Back
+</button>
+
+<h2 class="heartbeat">
+Silpa
+</h2>
+
+<div class="textBlock">
+
+You were never just a moment.<br>
+You were a turning point.<br><br>
+
+You came into my life at a time when I was still becoming someone I did not yet understand.<br>
+And without realizing it, you helped shape parts of me that remain even now.<br><br>
+
+Life moved forward, as it always does.<br>
+Paths changed. Circumstances changed.<br>
+But respect never faded.<br><br>
+
+Gratitude never faded.<br><br>
+
+You showed strength when things were uncertain.<br>
+You showed patience when I did not deserve it.<br>
+You showed sincerity without asking anything in return.<br><br>
+
+That is something rare.<br>
+That is something real.<br><br>
+
+I hope life gives you peace.<br>
+I hope it protects your heart.<br>
+I hope it rewards your strength.<br><br>
+
+Thank you for being part of my journey.
+
+</div>
+
+</section>
+
+
+
+<!-- DIYA MESSAGE -->
+<section
+id="diyaSection"
+class="section"
+style="display:none;"
+>
+
+<button
+class="backBtn"
+onclick="goBack()"
+>
+← Back
+</button>
+
+<h2 class="heartbeat">
+Diya
+</h2>
+
+<div class="textBlock">
+
+We met in a world where nothing was supposed to be real.<br>
+Yet somehow, what existed between us became real.<br><br>
+
+Not because of appearances.<br>
+Not because of expectations.<br>
+But because of presence.<br><br>
+
+You stayed.<br>
+You listened.<br>
+You cared.<br><br>
+
+You were there in moments when everything felt uncertain.<br>
+You were there when silence said more than words ever could.<br><br>
+
+Distance exists.<br>
+Life exists.<br>
+Reality exists.<br><br>
+
+But gratitude exists too.<br><br>
+
+Thank you for your presence.<br>
+Thank you for your kindness.<br>
+Thank you for being part of my life.<br><br>
+
+I wish you peace.<br>
+I wish you happiness.<br>
+I wish you a future filled with light.
+
+</div>
+
+</section>
+
+
+
+<!-- GRATITUDE SECTION -->
+<section
+id="gratitudeSection"
+class="section"
+style="display:none;"
+>
+
+<h2 class="heartbeat">
+Gratitude
+</h2>
+
+<div class="textBlock">
+
+Some people enter life quietly.<br>
+Yet their presence leaves a permanent mark.<br><br>
+
+Not loudly.<br>
+Not forcefully.<br>
+But meaningfully.<br><br>
+
+You became one of those rare presences.<br><br>
+
+Thank you for your support.<br>
+Thank you for your strength.<br>
+Thank you for being there.<br><br>
+
+No expectations.<br>
+No regrets.<br>
+Only gratitude.<br><br>
+
+Wherever life takes you,<br>
+I hope it gives you peace.<br>
+I hope it gives you happiness.<br>
+I hope it gives you everything beautiful.
+
+</div>
+
+</section>
+
+
+
+<!-- SECRET HEART BUTTON -->
+<div id="heart"></div>
+
+
+
+<!-- SECRET MESSAGE OVERLAY -->
+<div id="eggMsg">
+
+<div id="eggMsgBox">
+
+There are people who enter life quietly.<br><br>
+
+They do not demand attention.<br>
+They do not demand permanence.<br><br>
+
+Yet they leave something behind.<br>
+Something real.<br>
+Something lasting.<br><br>
+
+Your presence became one of those rare things.<br><br>
+
+Thank you for your kindness.<br>
+Thank you for your strength.<br>
+Thank you for being part of my path.<br><br>
+
+Wherever life takes you,<br>
+I hope it protects you.<br>
+I hope it gives you peace.<br>
+I hope it gives you happiness.<br><br>
+
+Happy Valentine's Day.
+
+</div>
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

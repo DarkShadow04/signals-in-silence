@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Access System</title>
+
+<style>
+
+/* MATRIX BACKGROUND */
+
+body{
+margin:0;
+background:black;
+color:#00ffc3;
+font-family:Courier New, monospace;
+overflow:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:0;
+}
+
+/* INPUT PANEL */
+
+#inputPanel{
+
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:2;
+
+background:black;
+border:2px solid #00ffc3;
+padding:40px;
+text-align:center;
+
+box-shadow:
+0 0 20px #00ffc3,
+0 0 60px #00ffc3;
+
+}
+
+input{
+
+display:block;
+margin:15px auto;
+padding:10px;
+background:black;
+border:1px solid #00ffc3;
+color:#00ffc3;
+font-size:16px;
+width:200px;
+
+}
+
+button{
+
+background:black;
+border:1px solid #00ffc3;
+color:#00ffc3;
+padding:10px 20px;
+cursor:pointer;
+
+}
+
+button:hover{
+background:#00ffc3;
+color:black;
+}
+
+/* TERMINAL */
+
+#terminal{
+
+position:absolute;
+top:5%;
+left:5%;
+width:90%;
+height:85%;
+
+border:2px solid #00ffc3;
+padding:20px;
+
+overflow-y:auto;
+
+display:none;
+
+z-index:2;
+
+/* CRITICAL FIX */
+background:rgba(0,0,0,0.96);
+
+/* inner glow */
+box-shadow:
+0 0 20px #00ffc3,
+0 0 60px rgba(0,255,195,0.4),
+inset 0 0 20px rgba(0,255,195,0.25);
+
+/* smoother text */
+font-size:15px;
+line-height:1.5;
+
+}
+
+/* FINAL PANEL */
+
+#finalPanel{
+
+display:none;
+
+position:fixed;
+
+top:50%;
+left:50%;
+
+transform:translate(-50%,-50%);
+
+width:90%;
+max-width:650px;
+
+height:70vh;            /* CRITICAL: limits height */
+
+padding:25px;
+
+background:rgba(0,0,0,0.97);
+
+border-left:3px solid #00ffc3;
+border-right:3px solid #00ffc3;
+
+box-shadow:
+0 0 20px #00ffc3,
+0 0 60px rgba(0,255,195,0.4),
+inset 0 0 20px rgba(0,255,195,0.25);
+
+overflow-y:auto;        /* CRITICAL: enables scroll */
+
+z-index:999;
+
+}
+
+#terminal::after{
+
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+background:
+repeating-linear-gradient(
+to bottom,
+transparent,
+transparent 2px,
+rgba(0,255,195,0.03) 3px
+);
+
+pointer-events:none;
+
+}
+
+#finalPanelContent{
+
+text-align:center;
+
+font-size:18px;
+
+line-height:1.7;
+
+color:#00ffc3;
+
+text-shadow:0 0 8px rgba(0,255,195,0.6);
+
+padding-right:5px; /* prevents text cut near scrollbar */
+
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="inputPanel">
+
+<h2>Future Access System</h2>
+
+<input id="name" placeholder="Enter your name">
+<input id="age" placeholder="Enter your age">
+
+<button onclick="start()">Access Future</button>
+
+</div>
+
+<div id="terminal"></div>
+
+<div id="finalPanel"></div>
+
+<audio id="typeSound" src="music/type.wav"></audio>
+<audio id="bootSound" src="music/Boot.mp3"></audio>
+<audio id="accessSound" src="music/access.mp3"></audio>
+
+<script>
+
+/* MATRIX */
+
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+const letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize=14;
+const columns=canvas.width/fontSize;
+
+const drops=[];
+
+for(let x=0;x<columns;x++)
+drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ffc3";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,35);
+
+/* TERMINAL */
+
+const terminal=document.getElementById("terminal");
+
+const sounds={
+
+type:document.getElementById("typeSound"),
+boot:document.getElementById("bootSound"),
+access:document.getElementById("accessSound")
+
+};
+
+/* SOUND CONTROL */
+
+function startTypeSound(){
+
+sounds.type.currentTime=0;
+sounds.type.loop=true;
+sounds.type.play().catch(()=>{});
+
+}
+
+function stopTypeSound(){
+
+sounds.type.pause();
+sounds.type.currentTime=0;
+
+}
+
+/* SCROLL */
+
+function scrollBottom(){
+
+terminal.scrollTop=terminal.scrollHeight;
+
+}
+
+/* TYPE FUNCTION */
+
+async function type(text){
+
+return new Promise(resolve=>{
+
+const line=document.createElement("div");
+terminal.appendChild(line);
+
+let i=0;
+
+startTypeSound();
+
+const interval=setInterval(()=>{
+
+line.innerHTML+=text[i];
+
+i++;
+
+scrollBottom();
+
+if(i>=text.length){
+
+clearInterval(interval);
+
+stopTypeSound();
+
+resolve();
+
+}
+
+},18);
+
+});
+
+}
+
+/* PROGRESS BAR */
+
+async function progress(){
+
+const bar=document.createElement("div");
+bar.style.border="1px solid #00ffc3";
+bar.style.margin="10px 0";
+bar.style.height="15px";
+
+const fill=document.createElement("div");
+fill.style.background="#00ffc3";
+fill.style.height="100%";
+fill.style.width="0%";
+
+bar.appendChild(fill);
+
+terminal.appendChild(bar);
+
+scrollBottom();
+
+return new Promise(resolve=>{
+
+let width=0;
+
+const interval=setInterval(()=>{
+
+width+=Math.random()*10;
+
+fill.style.width=width+"%";
+
+if(width>=100){
+
+clearInterval(interval);
+resolve();
+
+}
+
+},200);
+
+});
+
+}
+
+/* CRACK ANIMATION */
+
+async function crackAnimation(){
+
+const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+for(let i=0;i<20;i++){
+
+await type("Decrypting: "+chars[Math.floor(Math.random()*chars.length)]+"X9F"+Math.random().toString(36).substring(2,6));
+
+}
+
+}
+
+/* WARNING */
+
+function warning(text){
+
+const div=document.createElement("div");
+div.style.color="red";
+div.innerHTML=text;
+
+terminal.appendChild(div);
+
+scrollBottom();
+
+}
+
+/* FINAL PANEL */
+
+function showFinalPanel(name){
+
+document.getElementById("terminal").style.display="none";
+
+const panel=document.getElementById("finalPanel");
+
+panel.style.display="block";
+
+panel.innerHTML=`
+
+<h2>${name}, Future Not Found</h2>
+
+That is not an error.<br><br>
+
+That is freedom.<br><br>
+
+Your future is not locked.<br>
+It is not fixed.<br>
+It is not decided by any system.<br><br>
+
+It is alive.<br>
+And it is waiting for you.<br><br>
+
+Every step you take today<br>
+is quietly building the life you will live tomorrow.<br><br>
+
+Every struggle you face<br>
+is shaping strength inside you.<br><br>
+
+Every moment you keep going<br>
+is proof that you are moving forward.<br><br>
+
+Do not rush to see the future.<br>
+Become the person your future will be proud of.<br><br>
+
+Grow.<br>
+Learn.<br>
+Stand strong.<br><br>
+
+Make your parents proud.<br>
+Make yourself proud.<br><br>
+
+The most beautiful futures<br>
+are not found.<br><br>
+
+They are created.
+
+`;
+
+}
+
+/* START */
+
+async function start(){
+
+const username=document.getElementById("name").value;
+const age=document.getElementById("age").value;
+
+document.getElementById("inputPanel").style.display="none";
+terminal.style.display="block";
+
+sounds.boot.play();
+
+await type("BIOS Version 12.4.9 FUTURE_SYS");
+await type("Initializing Neural Interface...");
+await type("Loading Temporal Kernel...");
+await type("Mounting Reality Layer...");
+await type("Subject Identified: "+username);
+await type("Age Verified: "+age);
+
+await progress();
+
+await type("Scanning Timeline Coordinates...");
+await crackAnimation();
+
+await type("Accessing Fate System...");
+warning("FATE SYSTEM RESISTING");
+
+await type("sudo access future.timeline");
+warning("ACCESS DENIED");
+
+await type("Injecting Root Privileges...");
+
+await progress();
+
+await type("Privilege Escalation SUCCESS");
+
+sounds.access.play();
+
+await type("Admin Authorization Granted");
+
+await type("Accessing Future Timeline...");
+
+await progress();
+
+await type("Reading Destiny Stream...");
+
+await crackAnimation();
+
+await type("Syncing Emotional Index...");
+await progress();
+
+await type("Locating Cosmic Coordinates...");
+await progress();
+
+await type("Result: FUTURE NOT FOUND");
+
+setTimeout(()=>showFinalPanel(username),2000);
+
+}
+
+</script>
+
+</body>
+</html>
