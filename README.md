@@ -23,8 +23,10 @@ Click below to access the experience:
 
 # 🔐 How to Access
 
-Step 1 — Open the website  
+Step 1 — Open the website 
+
 Step 2 — Enter the password
+
 Step 3 — Enter your name when prompted  
 
 Step 4 — Explore the experience  
